@@ -86,6 +86,10 @@ MarlinUI ui;
   }
 #endif
 
+#if EITHER(HAS_LCD_MENU, DWIN_CREALITY_LCD)
+  preheat_t MarlinUI::material_preset[PREHEAT_COUNT];  // Initialized by settings.load()
+#endif
+
 #if HAS_SPI_LCD
 
 #if HAS_GRAPHICAL_LCD
@@ -110,6 +114,10 @@ MarlinUI ui;
 
 #if HAS_ADC_BUTTONS
   #include "../module/thermistor/thermistors.h"
+#endif
+
+#if HAS_POWER_MONITOR
+  #include "../feature/power_monitor.h"
 #endif
 
 #if HAS_ENCODER_ACTION
@@ -533,7 +541,6 @@ void MarlinUI::status_screen() {
   #endif // LCD_PROGRESS_BAR
 
   #if HAS_LCD_MENU
-
     if (use_click()) {
       #if BOTH(FILAMENT_LCD_DISPLAY, SDSUPPORT)
         next_filament_display = millis() + 5000UL;  // Show status message for 5s
